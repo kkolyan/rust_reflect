@@ -1,7 +1,7 @@
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
 
-pub trait ReflectedStruct {
+pub trait Reflected {
     fn create_meta() -> Struct;
 }
 
@@ -40,7 +40,7 @@ pub enum GetError {
 #[derive(Debug)]
 pub enum SetError {
     InvalidTarget,
-    InvalidValue,
+    InvalidValueType,
 }
 
 pub type GetRef = fn(&dyn Any) -> Result<&dyn Any, GetError>;
