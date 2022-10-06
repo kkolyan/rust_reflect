@@ -49,6 +49,7 @@ pub type Set = fn(&mut dyn Any, Box<dyn Any>) -> Result<(), SetError>;
 pub struct Field {
     pub name: &'static str,
     pub type_id: TypeId,
+    pub type_name: &'static str,
     pub get_ref_delegate: GetRef,
     pub set_delegate: Set,
 }

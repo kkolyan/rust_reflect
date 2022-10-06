@@ -57,6 +57,7 @@ fn generate_struct(name: Ident, s: &Punctuated<Field, Comma>) -> TokenStream {
                             Field {
                                 name: stringify!(#fname),
                                 type_id: TypeId::of::<#ftype>().type_id(),
+                                type_name: stringify!(#ftype),
                                 get_ref_delegate: |instance| match instance.downcast_ref::<Self>() {
                                     None => Err(GetError::InvalidTarget),
                                     Some(instance) => Ok(&instance.#fname)

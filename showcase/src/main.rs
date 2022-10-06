@@ -10,10 +10,10 @@ pub struct A {
 }
 
 fn main() {
-    let meta = A::create_meta();
+    let struct_a: Struct = A::create_meta();
 
     // create object dynamically
-    let a1 = meta.builder()
+    let a1 = struct_a.builder()
         .field("x", 42)
         .field("y", 7.2f32)
         .new_instance()
@@ -23,8 +23,8 @@ fn main() {
 
     let mut a2 = A { x: 17, y: 3.1 };
 
-    let x = meta.fields.get("x").unwrap();
-    let y = meta.fields.get("y").unwrap();
+    let x = struct_a.fields.get("x").unwrap();
+    let y = struct_a.fields.get("y").unwrap();
 
     // read dynamically
     assert_eq!(17, *x.get_ref(&a2).unwrap().downcast_ref::<i32>().unwrap());
@@ -35,6 +35,17 @@ fn main() {
     y.set(&mut a2, 0.6f32).unwrap();
     assert_eq!(12, *x.get_ref(&a2).unwrap().downcast_ref::<i32>().unwrap());
     assert_eq!(0.6, *y.get_ref(&a2).unwrap().downcast_ref::<f32>().unwrap());
+
+    // introspect struct description
+    let mut fields_desc = struct_a.fields.iter().map(|(_, field)|
+        format!("{}: {}", field.name, field.type_name)
+    )
+        .collect::<Vec<_>>();
+    fields_desc.sort();
+    let type_desc = format!("{} {{ {} }}", struct_a.name, fields_desc
+        .join(", "));
+
+    assert_eq!("A { x: i32, y: f32 }", type_desc);
 
     println!("OK");
 }
