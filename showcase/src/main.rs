@@ -13,11 +13,11 @@ fn main() {
     let meta = A::create_meta();
 
     // create object dynamically
-    let a1 = *meta.builder()
+    let a1 = meta.builder()
         .field("x", 42)
         .field("y", 7.2f32)
         .new_instance()
-        .unwrap().downcast::<A>().ok().unwrap();
+        .unwrap().downcast::<A>().unwrap();
     assert_eq!(a1.x, 42);
     assert_eq!(a1.y, 7.2);
 
