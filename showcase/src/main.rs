@@ -1,9 +1,9 @@
 use std::any::{Any, TypeId};
-use std::borrow::Borrow;
 use std::collections::HashMap;
+use rust_reflect::Reflected;
 use rust_reflect_api::{ConstructorError, ConstructorFieldError, ConstructorFieldErrorResolution, Field, GetError, Reflected, SetError, Struct};
 
-#[derive(rust_reflect::Reflected)]
+#[derive(Reflected)]
 pub struct A {
     pub x: i32,
     pub y: f32,
@@ -11,7 +11,6 @@ pub struct A {
 
 fn main() {
     let meta = A::create_meta();
-    let meta: &Struct = meta.borrow();
     let result = meta.builder()
         .field("x", 42)
         .field("y", 7.2f32)
