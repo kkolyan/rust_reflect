@@ -11,12 +11,13 @@ pub struct A {
 
 fn main() {
     let meta = A::create_meta();
-    let result = meta.builder()
+
+    // create object dynamically
+    let a1 = *meta.builder()
         .field("x", 42)
         .field("y", 7.2f32)
         .new_instance()
-        .unwrap();
-    let a1 = *result.downcast::<A>().ok().unwrap();
+        .unwrap().downcast::<A>().ok().unwrap();
     assert_eq!(a1.x, 42);
     assert_eq!(a1.y, 7.2);
 
@@ -25,9 +26,11 @@ fn main() {
     let x = meta.fields.get("x").unwrap();
     let y = meta.fields.get("y").unwrap();
 
+    // read dynamically
     assert_eq!(17, *x.get_ref(&a2).unwrap().downcast_ref::<i32>().unwrap());
     assert_eq!(3.1, *y.get_ref(&a2).unwrap().downcast_ref::<f32>().unwrap());
 
+    // write dynamically
     x.set(&mut a2, 12).unwrap();
     y.set(&mut a2, 0.6f32).unwrap();
     assert_eq!(12, *x.get_ref(&a2).unwrap().downcast_ref::<i32>().unwrap());
