@@ -18,6 +18,7 @@ fn main() {
         .unwrap();
     let a1 = *result.downcast::<A>().ok().unwrap();
     assert_eq!(a1.x, 42);
+    assert_eq!(a1.y, 7.2);
 
     let mut a2 = A { x: 17, y: 3.1 };
 
